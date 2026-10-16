@@ -1,4 +1,4 @@
-# 📊 TrueNAS 3-2-1 混合雲架構與災難復原（DR）自動化監控系統
+# 📊 TrueNAS混合雲架構與災難復原自動化監控系統
 
 [![GitHub Repository](https://shields.io)](https://github.com)
 [![Prometheus](https://shields.io)](https://prometheus.io)

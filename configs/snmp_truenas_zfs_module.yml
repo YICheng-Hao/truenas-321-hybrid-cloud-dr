@@ -1,0 +1,52 @@
+  truenas_zfs:
+    walk:
+      - 1.3.6.1.4.1.50536.1.1.1.1
+    metrics:
+      - name: zpoolHealthStatus
+        oid: 1.3.6.1.4.1.50536.1.1.1.1.3
+        type: DisplayString
+        help: 'The current health status string of the ZFS pool - 1.3.6.1.4.1.50536.1.1.1.1.3'
+        indexes:
+          - labelname: zpoolName
+            type: gauge
+        lookups:
+          - labels: [zpoolName]
+            labelname: zpoolName
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+      - name: zpoolAllocationUnits
+        oid: 1.3.6.1.4.1.50536.1.1.1.1.1
+        type: gauge
+        help: 'ZFS pool allocation units'
+        indexes:
+          - labelname: zpoolName
+            type: gauge
+        lookups:
+          - labels: [zpoolName]
+            labelname: zpoolName
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+      - name: zpoolUsed
+        oid: 1.3.6.1.4.1.50536.1.1.1.1.4
+        type: gauge
+        help: 'ZFS pool used space'
+        indexes:
+          - labelname: zpoolName
+            type: gauge
+        lookups:
+          - labels: [zpoolName]
+            labelname: zpoolName
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString
+      - name: zpoolAvailable
+        oid: 1.3.6.1.4.1.50536.1.1.1.1.5
+        type: gauge
+        help: 'ZFS pool available space'
+        indexes:
+          - labelname: zpoolName
+            type: gauge
+        lookups:
+          - labels: [zpoolName]
+            labelname: zpoolName
+            oid: 1.3.6.1.4.1.50536.1.1.1.1.2
+            type: DisplayString

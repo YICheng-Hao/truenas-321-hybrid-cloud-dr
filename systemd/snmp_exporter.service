@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus SNMP Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=snmp_exporter
+Group=snmp_exporter
+Type=simple
+ExecStart=/usr/local/bin/snmp_exporter --config.file=/etc/snmp_exporter/snmp.yml
+
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

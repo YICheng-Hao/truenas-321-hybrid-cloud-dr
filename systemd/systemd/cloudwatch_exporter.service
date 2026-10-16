@@ -1,0 +1,17 @@
+[Unit]
+Description=Prometheus CloudWatch Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=cloudwatch_exporter
+Group=cloudwatch_exporter
+Type=simple
+Environment="AWS_SHARED_CREDENTIALS_FILE=/etc/cloudwatch_exporter/credentials"
+ExecStart=/usr/bin/java -jar /opt/cloudwatch_exporter/cloudwatch_exporter.jar 9106 /etc/cloudwatch_exporter/config.yml
+
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

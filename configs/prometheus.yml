@@ -1,0 +1,40 @@
+global:
+  scrape_interval: 15s  # 全域設定：預設每 15 秒去抓取一次數據
+
+scrape_configs:
+  # 第一個任務：監控 Prometheus 自己的狀態
+  - job_name: 'prometheus'
+    scrape_interval: 5s  # 這個任務特別設定每 5 秒抓一次，覆蓋全域的 15 秒
+    static_configs:
+      - targets: ['localhost:9090'] # 目標：本機的 9090 Port
+
+  # 第二個任務：TrueNAS SNMP 監控
+  - job_name: 'truenas_snmp'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /snmp
+    params:
+      module: [if_mib, truenas_zfs, hrStorage, hrDevice, hrSystem]
+    static_configs:
+      - targets: ['100.114.236.88']
+        labels:
+          nodename: 'TrueNAS_A'
+          role: 'Primary'
+      - targets: ['100.113.107.95']
+        labels:
+          nodename: 'TrueNAS_B'
+          role: 'Backup'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9116
+
+  # 第三個任務：AWS S3 監控
+  - job_name: 'aws_s3'
+    scrape_interval: 5m
+    scrape_timeout: 1m
+    static_configs:
+      - targets: ['localhost:9106', 'localhost:9107']
